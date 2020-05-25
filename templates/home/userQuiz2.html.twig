@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Quiz{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    {% if ok == false %}
+        
+        {{ form_start(form) }}
+            {#{{ form_row(question.label) }}#}
+            {% for answer in form.answers %}
+                {{ form_row(answer.questions) }}
+                {{ form_row(answer.proposition) }}
+                 {{ form_row(answer.correction) }}
+            {% endfor %}
+        {{ form_end(form) }}
+        
+        <button class="btn btn-primary" type="submit">
+            Valider
+        </button>
+    {% else %}
+        <div class="hide">
+        <h2>Vous avez bien répondu au quiz, c'est fini !</h2>
+        <a href="{{ path("home_raz") }}" class="btn btn-info">Recommencer</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
