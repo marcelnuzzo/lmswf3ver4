@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AnswerRepository")
@@ -32,17 +34,24 @@ class Answer
      */
     private $questions;
 
+    /*
+    public function __construct()
+    {
+        $this->questions = new ArrayCollection();
+    }
+    */
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getProposition(): ?int
+    public function getProposition(): ?string
     {
         return $this->proposition;
     }
 
-    public function setProposition(int $proposition): self
+    public function setProposition(string $proposition): self
     {
         $this->proposition = $proposition;
 
@@ -61,15 +70,43 @@ class Answer
         return $this;
     }
 
-    public function getQuestions(): ?Question
+    
+    public function getQuestions(): ?string
     {
         return $this->questions;
     }
 
-    public function setQuestions(?Question $questions): self
+    
+    public function setQuestions(?Question $question): self
     {
-        $this->questions = $questions;
+        $this->question = $question;
 
         return $this;
     }
+    
+    /*
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setAnswers($this);
+        }
+
+        return $this;
+    }
+    
+
+    public function removeQuestion(Question $questions): self
+    {
+        if ($this->questions->contains($questions)) {
+            $this->questions->removeElement($questions);
+            // set the owning side to null (unless already changed)
+            if ($questions->getAnswers() === $this) {
+                $questions->setAnswers(null);
+            }
+        }
+
+        return $this;
+    }
+    */
 }

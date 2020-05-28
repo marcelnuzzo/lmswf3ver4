@@ -58,24 +58,36 @@ class Question
         return $this->answers;
     }
 
-    public function addAnswer(Answer $answer): self
+    /*
+    public function setAnswers(?Answer $answers): self
     {
-        if (!$this->answers->contains($answer)) {
-            $this->answers[] = $answer;
-            $answer->setQuestions($this);
+        $this->answers = $answers;
+
+        return $this;
+    }
+    */
+
+    public function addAnswer(Answer $answers): self
+    {
+        if (!$this->answers->contains($answers)) {
+            $this->answers[] = $answers;
+            $answers->setQuestions($this);
         }
 
         return $this;
     }
+    
 
-    public function removeAnswer(Answer $answer): self
+    public function removeAnswer(Answer $answers): self
     {
-        if ($this->answers->contains($answer)) {
-            $this->answers->removeElement($answer);
+        if ($this->answers->contains($answers)) {
+            $this->answers->removeElement($answers);
             // set the owning side to null (unless already changed)
-            if ($answer->getQuestions() === $this) {
-                $answer->setQuestions(null);
+            
+            if ($answers->getQuestions() === $this) {
+                $answers->setQuestions(null);
             }
+            
         }
 
         return $this;

@@ -11,8 +11,10 @@ use App\Form\QuizType;
 use App\Form\Quiz2Type;
 use App\Form\Quiz3Type;
 use App\Form\Quiz4Type;
+use App\Form\Quiz5Type;
 use App\Entity\Question;
 use App\Entity\Testquiz;
+use App\Form\Quiz6Type;
 use App\Form\UtiquizType;
 use App\Service\Readfile;
 use App\Service\Writefile;
@@ -40,6 +42,57 @@ class HomeController extends AbstractController
     {
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
+        ]);
+    }
+
+    /**
+     * @Route("/formulaire", name="home_formulaire")
+     */
+    public function formulaire(Request $request, EntityManagerInterface $manager)
+    {
+        
+        $question = new Question();
+        $quiz = new Answer();
+        $quiz->setProposition("")
+            ->setCorrection("");
+            //->setQuestions($question);
+        $question->getAnswers()->add($quiz);
+        //$quiz->setQuestions($$toto)
+        
+        //$this->createForm(Quiz6Type::class, $quiz);
+        $form = $this->createForm(Quiz5Type::class, $question);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $question->getLabel();
+            $manager->persist($question);
+            
+            //$manager->flush();
+            $question->getId();
+           //dd($question);
+            //$question->getLabel();
+            //$quiz->getQuestions();
+            //dd($quiz);
+          
+            
+            
+           foreach($question->getAnswers() as $quiz) {
+               $quiz->setQuestions($question);
+               $quiz->setQuestions($quiz->getQuestions());
+           }
+           $manager->persist($quiz);
+           //dd($quiz);
+          
+            $manager->persist($question);
+            
+            $manager->flush();
+
+            //return $this->redirectToRoute('home_list');
+        }
+
+        return $this->render('home/formulaire.html.twig', [
+            'quiz' => $quiz,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -106,6 +159,7 @@ class HomeController extends AbstractController
             $question = $questionRepo->find($i);
         }
         
+       
         //$question = $questionRepo->find($id);
         //dd($question);
         $form = $this->createForm(UtiquizType::class, $question);
@@ -227,4 +281,6 @@ class HomeController extends AbstractController
         return $this->redirectToRoute('homepage');
         
     }
+
+    
 }
