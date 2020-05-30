@@ -24,14 +24,10 @@ class QuestionRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT label FROM question
-            
+            SELECT label FROM question          
             ';
-
             $stmt = $conn->prepare($sql);
             $stmt->execute();
-
-            // returns an array of arrays (i.e. a raw data set)
             return $stmt->fetchAll();
     }
 
@@ -40,6 +36,17 @@ class QuestionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('q')
                     ->select('q.id')
                     ->orderBy('q.id', 'ASC')
+                    ->setMaxResults(1)
+                    ->getQuery()
+                    ->getResult()
+                    ;
+    }
+
+    public function findLastId ()
+    {
+        return $this->createQueryBuilder('q')
+                    ->select('q.id')
+                    ->orderBy('q.id', 'DESC')
                     ->setMaxResults(1)
                     ->getQuery()
                     ->getResult()

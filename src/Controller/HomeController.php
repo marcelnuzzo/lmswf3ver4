@@ -46,9 +46,20 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/list", name="home_list")
+     */
+    public function list(AnswerRepository $repo)
+    {
+        $answers = $repo->findAll();
+        return $this->render("home/list.html.twig", [
+            'answers' => $answers
+        ]);
+    }
+
+    /**
      * @Route("/formulaire", name="home_formulaire")
      */
-    public function formulaire(Request $request, EntityManagerInterface $manager)
+    public function formulaire(Request $request, EntityManagerInterface $manager, QuestionRepository $qRepo)
     {
         
         $question = new Question();
@@ -64,30 +75,42 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $question->getLabel();
-            $manager->persist($question);
             
-            //$manager->flush();
-            $question->getId();
-           //dd($question);
-            //$question->getLabel();
-            //$quiz->getQuestions();
-            //dd($quiz);
-          
+            $quest = $form['label']->getData();
+            $question1 = new Question();
+            $question1->setLabel($quest);
+            $manager->persist($question1);
+            $manager->flush();
             
-            
+            $labelId = $qRepo->findLastId()[0]['id']; 
+            $questionId = $qRepo->find($labelId);       
+            //$ans = $form['answers']->getData();
+            $propo = $_POST['quiz5']['answers'][0]['proposition'];        
+            if(!empty($_POST['quiz5']['answers'][0]['correction'])) {
+                $correction = $_POST['quiz5']['answers'][0]['correction'];
+            }
+            else {
+                $correction = false;
+            }
+            //dd($propo);
+           
+            $answer1 = new Answer();
+            $answer1->setProposition($propo)
+                    ->setCorrection($correction)
+                    ->setQuestions($questionId);
+
+            $manager->persist($answer1);
+            $manager->flush();
+            /*
            foreach($question->getAnswers() as $quiz) {
                $quiz->setQuestions($question);
                $quiz->setQuestions($quiz->getQuestions());
            }
            $manager->persist($quiz);
+           */
            //dd($quiz);
           
-            $manager->persist($question);
-            
-            $manager->flush();
-
-            //return $this->redirectToRoute('home_list');
+            return $this->redirectToRoute('home_list');
         }
 
         return $this->render('home/formulaire.html.twig', [

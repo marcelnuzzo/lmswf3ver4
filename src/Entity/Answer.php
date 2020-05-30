@@ -71,15 +71,15 @@ class Answer
     }
 
     
-    public function getQuestions(): ?string
+    public function getQuestions(): ?Question
     {
         return $this->questions;
     }
 
     
-    public function setQuestions(?Question $question): self
+    public function setQuestions(?Question $questions): self
     {
-        $this->question = $question;
+        $this->questions = $questions;
 
         return $this;
     }
