@@ -84,7 +84,6 @@ class HomeController extends AbstractController
             
             $labelId = $qRepo->findLastId()[0]['id']; 
             $questionId = $qRepo->find($labelId);       
-            //$ans = $form['answers']->getData();
             $propo = $_POST['quiz5']['answers'][0]['proposition'];        
             if(!empty($_POST['quiz5']['answers'][0]['correction'])) {
                 $correction = $_POST['quiz5']['answers'][0]['correction'];
@@ -92,7 +91,6 @@ class HomeController extends AbstractController
             else {
                 $correction = false;
             }
-            //dd($propo);
            
             $answer1 = new Answer();
             $answer1->setProposition($propo)
@@ -101,14 +99,6 @@ class HomeController extends AbstractController
 
             $manager->persist($answer1);
             $manager->flush();
-            /*
-           foreach($question->getAnswers() as $quiz) {
-               $quiz->setQuestions($question);
-               $quiz->setQuestions($quiz->getQuestions());
-           }
-           $manager->persist($quiz);
-           */
-           //dd($quiz);
           
             return $this->redirectToRoute('home_list');
         }
