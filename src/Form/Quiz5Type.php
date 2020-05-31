@@ -25,13 +25,8 @@ class Quiz5Type extends ApplicationType
             ->add('label', TextType::class, $this->getConfiguration("label", "Veuillez saisir la question"))
             ->add('answers', CollectionType::class, [
                 'entry_type' => Quiz6Type::class,
-                //'by_reference' => true,
-                
-                'entry_options' => [
-                    'label' => false,
-                ],
-                
-                //'allow_add'  => false
+                'allow_add' => true,
+                'allow_delete' => true
             ])
             
         ;

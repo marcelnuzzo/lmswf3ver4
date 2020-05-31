@@ -19,7 +19,7 @@ class Answer
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $proposition;
 

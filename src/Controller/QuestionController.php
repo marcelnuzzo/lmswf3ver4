@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
+use App\Form\Quiz5Type;
 use App\Entity\Question;
 use App\Form\QuestionType;
 use App\Repository\QuestionRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/question")
@@ -90,5 +93,48 @@ class QuestionController extends AbstractController
         }
 
         return $this->redirectToRoute('question_index');
+    }
+
+    /**
+     * 
+     * @Route("/question/nouveau", name="question_nouveau")
+     *
+     * @return Response
+     */
+    public function nouveau(EntityManagerInterface $manager, Request $request) {
+        $question = new Question();
+        /*
+        $answer = new Answer();
+        $answer->setProposition('')
+                ->setCorrection('');
+        $question->addAnswer($answer);
+        $answer1 = new Answer();
+        $answer1->setProposition('')
+                ->setCorrection('');
+        $question->addAnswer($answer1);
+        */
+        $form = $this->createForm(Quiz5Type::class, $question);
+
+        $form->handleRequest($request);
+               
+        if($form->isSubmitted() && $form->isValid()) {  
+            foreach($question->getanswers() as $answer) {
+                $answer->setQuestions($question);
+                $manager->persist($answer);
+            }
+                        
+            $manager->persist($question);
+            $manager->flush();
+                    
+            $this->addFlash(
+                'success',
+                "OK"
+            );
+                
+            return $this->redirectToRoute('home_list');
+        }
+        return $this->render('question/nouveau.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }

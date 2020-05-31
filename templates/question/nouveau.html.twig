@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Création d'un quiz{% endblock %}
+
+{% form_theme form 'question/_collection.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 class="my-5">Créer un nouveau quiz</h1>
+
+        {{ form_start(form) }}
+ 
+            <div class="alert alert-light">
+                <h2>Question</h2>
+                {{ form_row(form.label) }}
+            </div>        
+            <div class="alert alert-light">
+                <h2>Proposition et correction</h2>
+                {{ form_row(form.answers) }}
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-check"></i>
+                    Créer un quiz 
+                </button>
+            </div>
+        
+        
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script src="/js/question.js"></script>
+
+{% endblock %}
