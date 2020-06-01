@@ -28,6 +28,11 @@ class Question
      */
     private $answers;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $choice;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -89,6 +94,18 @@ class Question
             }
             
         }
+
+        return $this;
+    }
+
+    public function getChoice(): ?bool
+    {
+        return $this->choice;
+    }
+
+    public function setChoice(bool $choice): self
+    {
+        $this->choice = $choice;
 
         return $this;
     }

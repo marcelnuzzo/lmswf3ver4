@@ -6,6 +6,8 @@ use App\Entity\Answer;
 use App\Form\Quiz5Type;
 use App\Entity\Question;
 use App\Form\QuestionType;
+use App\Form\Quiz6Type;
+use App\Repository\AnswerRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,16 +105,7 @@ class QuestionController extends AbstractController
      */
     public function nouveau(EntityManagerInterface $manager, Request $request) {
         $question = new Question();
-        /*
-        $answer = new Answer();
-        $answer->setProposition('')
-                ->setCorrection('');
-        $question->addAnswer($answer);
-        $answer1 = new Answer();
-        $answer1->setProposition('')
-                ->setCorrection('');
-        $question->addAnswer($answer1);
-        */
+       
         $form = $this->createForm(Quiz5Type::class, $question);
 
         $form->handleRequest($request);
@@ -128,7 +121,7 @@ class QuestionController extends AbstractController
                     
             $this->addFlash(
                 'success',
-                "OK"
+                "création du quiz sauvegardée"
             );
                 
             return $this->redirectToRoute('home_list');
@@ -137,4 +130,52 @@ class QuestionController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * 
+     * @Route("/question/affiche", name="question_affiche")
+     *
+     * @return Response
+     */
+    /*
+    public function affiche(EntityManagerInterface $manager, Request $request, QuestionRepository $qRepo, AnswerRepository $aRepo) {
+        //$answers = $aRepo->findAll();
+       
+        $firstQuestion = $qRepo->findFirstId()[0]['id'];
+        $id = $firstQuestion;
+        
+        $choice = $qRepo->findChoice($id)->getChoice();
+        //dd($choice);
+        $answer = new Answer();
+        $this->createForm(Quiz6Type::class, $answer, [
+            'choice' => $choice,
+        ]);
+        $question = new Question();
+        
+        $form = $this->createForm(Quiz5Type::class, $question);
+
+        $form->handleRequest($request);
+               
+        if($form->isSubmitted() && $form->isValid()) {  
+            foreach($question->getanswers() as $answer) {
+                $answer->setQuestions($question);
+                $manager->persist($answer);
+            }
+                        
+            $manager->persist($question);
+            $manager->flush();
+                    
+            $this->addFlash(
+                'success',
+                "création du quiz sauvegardée"
+            );
+                
+            return $this->redirectToRoute('home_list');
+        }
+        return $this->render('question/affiche.html.twig', [
+            'form' => $form->createView(),
+            
+        ]);
+    }
+    */
 }

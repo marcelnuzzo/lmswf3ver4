@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Label</th>
+                <th>Choix du type, 1 pour multiple, 0 pour unique</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,6 +19,7 @@
             <tr>
                 <td>{{ question.id }}</td>
                 <td>{{ question.label }}</td>
+                <td>{{ question.choice }}</td>
                 <td>
                     <a href="{{ path('question_show', {'id': question.id}) }}">show</a>
                     <a href="{{ path('question_edit', {'id': question.id}) }}">edit</a>

@@ -10,19 +10,21 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class Quiz5Type extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        /*
-            ->add('proposition')
-            ->add('correction')
-            */
+       
             ->add('label', TextType::class, $this->getConfiguration("label", "Veuillez saisir la question"))
+            ->add('choice', CheckboxType::class, [
+                'label' => "Veuillez cocher la case si la question présente un choix multiple",
+                'required' => false,
+            ])
             ->add('answers', CollectionType::class, [
                 'entry_type' => Quiz6Type::class,
                 'allow_add' => true,

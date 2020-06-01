@@ -1,13 +1,13 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Création d'un quiz{% endblock %}
+{% block title %}Quiz{% endblock %}
 
 {% form_theme form 'question/_collection.html.twig' %}
 
 {% block body %}
 
     <div class="container">
-        <h1 class="my-5">Créer un nouveau quiz</h1>
+        <h1 class="my-5">Quiz</h1>
 
         {{ form_start(form) }}
  
@@ -15,6 +15,7 @@
                 <h2>Question</h2>
                 {{ form_row(form.label) }}
                 <h2>Est ce un choix unique ou multiple ?</h2>
+                <h3>Veuillez cocher la case si la question présente un choix multiple</h3>
                 {{ form_row(form.choice) }}
             </div>        
             <div class="alert alert-light">
@@ -35,7 +36,6 @@
 
 {% block javascripts %}
 
-<script src="{{ asset("js/question.js") }}"></script>
-{#<script src="/js/question.js"></script>#}
+<script src="/js/question.js"></script>
 
 {% endblock %}

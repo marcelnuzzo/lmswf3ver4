@@ -17,7 +17,7 @@ class ApplicationType extends AbstractType {
         return array_merge_recursive([
             'label' => $label,
                 'attr' => [
-                    'placeholder' => $placeholder
+                    'placeholder' => $placeholder,
                     ]
                 ], $options);
     }
