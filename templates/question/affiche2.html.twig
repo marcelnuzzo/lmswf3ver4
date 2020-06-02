@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Création d'un quiz{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 class="my-5">Créer un nouveau quiz</h1>
+
+        {#{{ form_start(form) }}#}
+ 
+           {{ form_start(form) }}
+            {#{{ form_row(question.label) }}#}
+            {% for answer in form.answers %}
+                {{ form_row(answer.questions) }}
+                {{ form_row(answer.proposition) }}
+                 {{ form_row(answer.correction) }}
+            {% endfor %}
+            {{ form_end(form) }}
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-check"></i>
+                    Créer un quiz 
+                </button>
+
+        {#{{ form_end(form) }}#}
+    </div>
+
+{% endblock %}
+

@@ -2,40 +2,36 @@
 
 {% block title %}Quiz{% endblock %}
 
-{% form_theme form 'question/_collection.html.twig' %}
-
 {% block body %}
 
     <div class="container">
-        <h1 class="my-5">Quiz</h1>
+        <h1 class="my-5">Quiz</h1>     
 
         {{ form_start(form) }}
- 
+            {% for answer in answers %}
             <div class="alert alert-light">
                 <h2>Question</h2>
-                {{ form_row(form.label) }}
-                <h2>Est ce un choix unique ou multiple ?</h2>
-                <h3>Veuillez cocher la case si la question présente un choix multiple</h3>
-                {{ form_row(form.choice) }}
-            </div>        
+                {{ answer.questions.label }}
+                
+            </div>  
+            
+               
             <div class="alert alert-light">
-                <h2>Proposition et correction</h2>
-                {{ form_row(form.answers) }}
-                <button type="submit" class="btn btn-primary">
-                    <i class="fa fa-check"></i>
-                    Créer un quiz 
-                </button>
+                
+                <h2>Proposition</h2>
+                {{ answer.proposition }}
+               
             </div>
-        
+            {% endfor %}
+                 <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-check"></i>
+                    Soumettre
+                </button>
         
 
         {{ form_end(form) }}
+
+       
     </div>
-
-{% endblock %}
-
-{% block javascripts %}
-
-<script src="/js/question.js"></script>
 
 {% endblock %}

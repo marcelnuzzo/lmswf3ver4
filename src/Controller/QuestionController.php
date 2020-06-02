@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Answer;
+use App\Form\QuizType;
 use App\Form\Quiz5Type;
+use App\Form\Quiz6Type;
 use App\Entity\Question;
 use App\Form\QuestionType;
-use App\Form\Quiz6Type;
 use App\Repository\AnswerRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -124,7 +125,7 @@ class QuestionController extends AbstractController
                 "création du quiz sauvegardée"
             );
                 
-            return $this->redirectToRoute('home_list');
+            //return $this->redirectToRoute('home_list');
         }
         return $this->render('question/nouveau.html.twig', [
             'form' => $form->createView()
@@ -133,30 +134,38 @@ class QuestionController extends AbstractController
 
     /**
      * 
-     * @Route("/question/affiche", name="question_affiche")
+     * @Route("/question/affiche2", name="question_affiche2")
      *
      * @return Response
      */
-    /*
     public function affiche(EntityManagerInterface $manager, Request $request, QuestionRepository $qRepo, AnswerRepository $aRepo) {
-        //$answers = $aRepo->findAll();
-       
+        
         $firstQuestion = $qRepo->findFirstId()[0]['id'];
-        $id = $firstQuestion;
-        
+        $id = $firstQuestion;    
         $choice = $qRepo->findChoice($id)->getChoice();
-        //dd($choice);
-        $answer = new Answer();
-        $this->createForm(Quiz6Type::class, $answer, [
-            'choice' => $choice,
-        ]);
-        $question = new Question();
+        $countQuestion = $qRepo->findCountQuestion();
+        $tabPropo = [];
+        //for($i=1; $i<=$countQuestion; $i++) {
+            $tabPropo[] = $aRepo->findPropo($id);
+        //}
+        for($i=0; $i<$countQuestion; $i++) {
+           $tabPropo = $tabPropo[$i]['proposition'];
+        }
         
-        $form = $this->createForm(Quiz5Type::class, $question);
+
+        dd($tabPropo);
+        
+        $answer = new Answer();
+        
+        $form = $this->createForm(QuizType::class, $answer, [
+            'choice' => $choice,
+            'tabPropo' => $tabPropo,
+        ]);
 
         $form->handleRequest($request);
-               
+           
         if($form->isSubmitted() && $form->isValid()) {  
+            /*
             foreach($question->getanswers() as $answer) {
                 $answer->setQuestions($question);
                 $manager->persist($answer);
@@ -164,18 +173,15 @@ class QuestionController extends AbstractController
                         
             $manager->persist($question);
             $manager->flush();
-                    
-            $this->addFlash(
-                'success',
-                "création du quiz sauvegardée"
-            );
+             */       
+           
                 
             return $this->redirectToRoute('home_list');
         }
-        return $this->render('question/affiche.html.twig', [
+        return $this->render('question/affiche2.html.twig', [
             'form' => $form->createView(),
-            
+            'answers' => $aRepo->findAll()
         ]);
     }
-    */
+    
 }

@@ -17,7 +17,7 @@ class UtiquizType extends AbstractType
         $builder
             
             ->add('answers', CollectionType::class, [
-                'entry_type' => Quiz4Type::class,
+                'entry_type' => Quiz6Type::class,
                 //'by_reference' => true,
                 
                 'entry_options' => [

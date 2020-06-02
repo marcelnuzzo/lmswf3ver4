@@ -18,18 +18,29 @@ class QuizType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $choice =  $options['choice'] ;
+        $tabPropo = $options['tabPropo'];
         $builder
-            
+            /*
             ->add('answers', CollectionType::class, [
                 'entry_type' => UtiquizType::class,
             ])
             
-            /*
-            ->add('answers', EntityType::class, [
+            ->add('questions', EntityType::class, [
                 'class' => Question::class,
                 'choice_label' => 'label',
             ])
             */
+
+            ->add('proposition', ChoiceType::class, [
+                'choices' => [
+                    $tabPropo[1] => 'choix 1',
+                    $tabPropo[2] => 'choix 2',
+                    $tabPropo[3] => 'choix 3',
+                ],
+                'expanded' => true,
+                'multiple' => $choice,
+            ])
             
         ;
     }
@@ -37,7 +48,9 @@ class QuizType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Question::class,
+            'data_class' => Answer::class,
+            'choice' => null,
+            'tabPropo' => null,
         ]);
     }
 }

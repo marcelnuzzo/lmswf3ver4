@@ -63,21 +63,21 @@ class Question
         return $this->answers;
     }
 
-    /*
+    
     public function setAnswers(?Answer $answers): self
     {
         $this->answers = $answers;
 
         return $this;
     }
-    */
+    
 
     public function addAnswer(Answer $answers): self
     {
-        if (!$this->answers->contains($answers)) {
+        //if (!$this->answers->contains($answers)) {
             $this->answers[] = $answers;
             $answers->setQuestions($this);
-        }
+        //}
 
         return $this;
     }
@@ -85,15 +85,15 @@ class Question
 
     public function removeAnswer(Answer $answers): self
     {
-        if ($this->answers->contains($answers)) {
-            $this->answers->removeElement($answers);
+        //if ($this->answers->contains($answers)) {
+            //$this->answers->removeElement($answers);
             // set the owning side to null (unless already changed)
             
             if ($answers->getQuestions() === $this) {
                 $answers->setQuestions(null);
             }
             
-        }
+        //}
 
         return $this;
     }
